@@ -101,11 +101,11 @@
   }
   .brand { display: flex; align-items: center; gap: 14px; }
   .brand-mark {
-    width: 46px; height: 46px; border-radius: 10px; overflow: hidden;
+    width: 64px; height: 64px; border-radius: 12px; overflow: hidden;
     background: #fff; display: grid; place-items: center;
     box-shadow: 0 8px 24px -12px rgba(255,107,26,.5);
   }
-  .brand-mark img { width: 110%; height: 110%; object-fit: cover; }
+  .brand-mark img { width: 100%; height: 100%; object-fit: contain; }
   .brand-name { display: flex; flex-direction: column; line-height: 1; }
   .brand-name b { font-family: var(--f-display); font-weight: 600; font-size: 18px; letter-spacing: .02em; }
   .brand-name span { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--sand); margin-top: 5px; text-transform: uppercase; }
@@ -136,6 +136,73 @@
 
   @media (max-width: 900px) {
     .menu { display: none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+
+  /* Tablet */
+  @media (max-width: 768px) {
+    .nav-inner { padding-block: 14px; }
+    .nav-cta { gap: 12px; }
+    .brand-mark { width: 52px; height: 52px; border-radius: 10px; }
+    .brand-name b { font-size: 15px; }
+    .brand-name span { font-size: 9px; letter-spacing: .18em; }
+    .pill-btn { padding: 12px 18px; font-size: 14px; }
+    .lang-btn { padding: 6px 8px; font-size: 10px; letter-spacing: .14em; }
+    .lang-sep { font-size: 10px; }
+    .hero-meta { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .contact-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .contact-row .k { min-width: auto; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ticker { font-size: clamp(20px, 3.5vw, 36px); padding: 20px 0; }
+    .ticker-track { gap: 50px; }
+    .ticker-track span { gap: 50px; }
+  }
+
+  /* Phone */
+  @media (max-width: 480px) {
+    .nav-cta { gap: 8px; }
+    .nav-inner { padding-block: 12px; }
+    .brand-mark { width: 46px; height: 46px; border-radius: 9px; }
+    .brand-name b { font-size: 14px; }
+    .brand-name span { font-size: 8px; letter-spacing: .15em; margin-top: 3px; }
+    .pill-btn { padding: 10px 14px; font-size: 13px; gap: 6px; }
+    .pill-btn svg { width: 12px; height: 12px; }
+    .ghost-btn { padding: 10px 14px; font-size: 13px; }
+    .lang-btn { padding: 8px 6px; font-size: 10px; letter-spacing: .1em; min-width: 32px; min-height: 32px; display: inline-flex; align-items: center; justify-content: center; }
+    .lang-sep { font-size: 9px; margin: 0 1px; }
+    .hero-title { font-size: clamp(44px, 12vw, 80px); }
+    .hero-cta { flex-direction: column; gap: 10px; }
+    .hero-cta .pill-btn, .hero-cta .ghost-btn { width: 100%; justify-content: center; }
+    .section { padding: clamp(50px, 8vw, 100px) 0; }
+    .section-title { font-size: clamp(32px, 8vw, 52px); }
+    .section-sub { font-size: 14px; }
+    .eyebrow { font-size: 9px; letter-spacing: .18em; }
+    .eyebrow::before { width: 18px; }
+    .chip { padding: 8px 12px; font-size: 11px; }
+    .ticker { font-size: clamp(16px, 4.5vw, 28px); padding: 16px 0; }
+    .ticker-track { gap: 36px; padding-left: 36px; }
+    .ticker-track span { gap: 36px; }
+    .why-t { font-size: 22px; }
+    .why-d { font-size: 13px; }
+    .quote { font-size: clamp(24px, 6vw, 36px); }
+    .cta { padding: clamp(30px, 6vw, 60px) clamp(18px, 4vw, 36px); border-radius: 18px; }
+    .cta-title { font-size: clamp(32px, 8vw, 52px); }
+    .contact-row .v { font-size: 14px; word-break: break-word; }
+    .foot-bottom { font-size: 9px; letter-spacing: .14em; }
+    .big-name { font-size: clamp(50px, 14vw, 140px); }
+    .car-name { font-size: 28px; }
+    .car-price { font-size: 26px; }
+    .car-book { font-size: 10px; letter-spacing: .14em; }
+    .car-specs .sk { font-size: 8px; }
+    .car-specs .sv { font-size: 13px; }
+  }
+
+  /* Very small phones */
+  @media (max-width: 360px) {
+    .lang-btn { padding: 8px 5px; font-size: 9px; letter-spacing: .08em; }
+    .pill-btn { padding: 10px 12px; font-size: 12px; }
+    .hero-title { font-size: clamp(36px, 11vw, 60px); }
   }
 
   /* ---------- HERO ---------- */
@@ -187,14 +254,7 @@
     content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line);
   }
 
-  .masthead {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 24px; border-bottom: 1px solid var(--line);
-    margin-bottom: clamp(40px, 7vw, 80px);
-    flex-wrap: wrap; gap: 14px;
-  }
-  .masthead .mono:nth-child(1) { color: var(--sand); }
-  .masthead .mono b { color: var(--bone); font-weight: 500; }
+  /* masthead removed */
 
   .hero-grid {
     display: flex; flex-direction: column; gap: clamp(24px, 4vw, 40px);
@@ -584,14 +644,13 @@
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s cubic-bezier(.2,.9,.3,1), transform 1s cubic-bezier(.2,.9,.3,1); }
   .reveal.in { opacity: 1; transform: none; }
   .reveal-stagger > * { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.2,.9,.3,1), transform .9s cubic-bezier(.2,.9,.3,1); }
+  .reveal-stagger.in > * { opacity: 1; transform: none; }
   .reveal-stagger.in > *:nth-child(1) { transition-delay: 0ms; }
   .reveal-stagger.in > *:nth-child(2) { transition-delay: 90ms; }
   .reveal-stagger.in > *:nth-child(3) { transition-delay: 180ms; }
   .reveal-stagger.in > *:nth-child(4) { transition-delay: 270ms; }
   .reveal-stagger.in > *:nth-child(5) { transition-delay: 360ms; }
   .reveal-stagger.in > *:nth-child(6) { transition-delay: 450ms; }
-  .reveal-stagger.in > * { opacity: 0; transform: translateY(24px); }
-  .reveal-stagger.in > * { opacity: 1; transform: none; }
 
   /* Hero initial animation */
   .hero-title .line { display: block; overflow: hidden; }
@@ -629,10 +688,6 @@
   <div class="wrap nav-inner">
     <a class="brand" href="#">
       <div class="brand-mark"><img src="assets/logo.jpeg" alt="Ouahdou Rio Rental logo" /></div>
-      <div class="brand-name">
-        <b>Ouahdou Rio Rental</b>
-        <span>Dakhla · Oued Ed-Dahab</span>
-      </div>
     </a>
     <div class="nav-cta">
       <div class="lang-switch">
@@ -660,11 +715,6 @@
     <div class="hero-video-overlay"></div>
   </div>
   <div class="wrap">
-    <div class="masthead fade-in">
-      <div class="mono"><span data-i18n="hero_issue">Numéro 07 —</span> <b data-i18n="hero_season">Printemps / Été 2026</b></div>
-      <div class="mono">23.7185° N · 15.9370° W</div>
-      <div class="mono">Est. Dakhla · <b data-i18n="hero_tagline">Une voiture pour chaque dune</b></div>
-    </div>
 
     <div class="hero-grid">
       <h1 class="hero-title">
@@ -714,7 +764,7 @@
       <button class="chip" data-filter="monospaces" data-i18n="chip_minivan">Monospaces</button>
     </div>
 
-    <div class="fleet reveal-stagger" id="fleet-grid">
+    <div class="fleet reveal" id="fleet-grid">
       <!-- Cars loaded dynamically from data/cars.js -->
     </div>
   </div>
@@ -914,13 +964,15 @@
     }
   })();
 
-  // Reveal on scroll
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+  // Reveal on scroll (set up after renderCars so fleet-grid has content)
+  function setupReveal() {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) { io.observe(el); });
+  }
 
   // Ticker: render with translations
   function renderTicker() {
@@ -1031,6 +1083,9 @@
 
   // Initialize language (reads localStorage, applies translations)
   initLang();
+
+  // Set up reveal animations AFTER content is rendered
+  setupReveal();
 
   // Booking scroll
   function scrollToFleet() {
