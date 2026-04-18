@@ -953,15 +953,37 @@
 <script src="data/lang.js"></script>
 <script src="data/cars.js"></script>
 <script>
-  // Hero video autoplay fallback
+  // Hero video autoplay — keep playing on mobile
   (function() {
     var v = document.querySelector('.hero-video');
-    if (v) {
-      v.play().catch(function() {
+    if (!v) return;
+
+    function forcePlay() {
+      if (v.paused) {
         v.muted = true;
-        v.play();
-      });
+        v.play().catch(function() {});
+      }
     }
+
+    // Initial play
+    v.play().catch(function() {
+      v.muted = true;
+      v.play().catch(function() {});
+    });
+
+    // Resume when page becomes visible again (tab switch, screen lock)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) forcePlay();
+    });
+
+    // Resume on scroll/touch (some mobile browsers pause on interaction)
+    v.addEventListener('pause', function() {
+      setTimeout(forcePlay, 100);
+    });
+
+    // Ensure it plays after user interacts with page (mobile autoplay policy)
+    document.addEventListener('touchstart', forcePlay, { once: true });
+    document.addEventListener('click', forcePlay, { once: true });
   })();
 
   // Reveal on scroll (set up after renderCars so fleet-grid has content)

@@ -465,14 +465,14 @@
             <label><span data-i18n="form_pickup_date">Date de départ</span> <span class="req">*</span></label>
             <div class="input-box">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              <input type="date" id="pickupDate" required onchange="calcTotal()" />
+              <input type="date" id="pickupDate" required />
             </div>
           </div>
           <div class="field">
             <label><span data-i18n="form_return_date">Date de retour</span> <span class="req">*</span></label>
             <div class="input-box">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              <input type="date" id="returnDate" required onchange="calcTotal()" />
+              <input type="date" id="returnDate" required />
             </div>
           </div>
         </div>
@@ -548,9 +548,10 @@ CARS_DATA.forEach(function(c) {
 
 // Read ?car= param
 var params = new URLSearchParams(location.search);
-var carId  = params.get("car") || "sandero";
-var car    = CARS[carId] || CARS["sandero"];
-if (!CARS[carId]) carId = "sandero";
+var carParam = params.get("car");
+var carLocked = !!(carParam && CARS[carParam]);
+var carId  = carParam && CARS[carParam] ? carParam : "";
+var car    = carId ? CARS[carId] : CARS[CARS_DATA[0].id];
 
 // Render car dropdown options
 function renderCarDropdown() {
@@ -567,6 +568,11 @@ function renderCarDropdown() {
     select.appendChild(opt);
   });
   select.value = currentVal;
+  // Lock dropdown if user came from a specific car link
+  if (carLocked) {
+    select.disabled = true;
+    select.style.opacity = '0.6';
+  }
 }
 
 // Render pickup location dropdown
@@ -608,15 +614,46 @@ function updateSelectedCar() {
 }
 
 // Set default dates first
-var today = new Date(), plus3 = new Date(Date.now() + 3 * 864e5);
+var today = new Date(), plus2 = new Date(Date.now() + 2 * 864e5);
 var iso = function(d) { return d.toISOString().slice(0,10); };
-document.getElementById("pickupDate").value = iso(today);
-document.getElementById("returnDate").value  = iso(plus3);
+var pickupInput = document.getElementById("pickupDate");
+var returnInput = document.getElementById("returnDate");
+
+// Cannot select dates before today
+pickupInput.setAttribute("min", iso(today));
+returnInput.setAttribute("min", iso(plus2));
+
+pickupInput.value = iso(today);
+returnInput.value = iso(plus2);
+
+// When pickup changes, enforce return >= pickup + 2 days
+pickupInput.addEventListener("change", function() {
+  var picked = new Date(pickupInput.value);
+  if (picked < today) { pickupInput.value = iso(today); picked = today; }
+  var minReturn = new Date(picked.getTime() + 2 * 864e5);
+  returnInput.setAttribute("min", iso(minReturn));
+  if (!returnInput.value || new Date(returnInput.value) < minReturn) {
+    returnInput.value = iso(minReturn);
+  }
+  calcTotal();
+});
+
+// When return changes, enforce >= pickup + 2 days
+returnInput.addEventListener("change", function() {
+  var picked = new Date(pickupInput.value || iso(today));
+  var minReturn = new Date(picked.getTime() + 2 * 864e5);
+  if (new Date(returnInput.value) < minReturn) {
+    returnInput.value = iso(minReturn);
+  }
+  calcTotal();
+});
 
 // Initial render of dropdowns
 renderCarDropdown();
 renderLocDropdown();
-document.getElementById("carSelect").value = carId;
+if (carId) {
+  document.getElementById("carSelect").value = carId;
+}
 
 // Initial display
 updateCarDisplay();
@@ -632,7 +669,7 @@ function calcTotal() {
     daysEl.textContent = t('form_select_dates', lang);
     return;
   }
-  var days  = Math.max(1, Math.round((new Date(d2) - new Date(d1)) / 864e5));
+  var days = Math.max(2, Math.round((new Date(d2) - new Date(d1)) / 864e5));
   var total = car.price * days;
   priceEl.innerHTML = total.toLocaleString() + '<small>MAD</small>';
   var dayWord = days > 1 ? t('days_text_plural', lang) : t('days_text', lang);
@@ -642,7 +679,7 @@ function calcTotal() {
 function submitForm(e) {
   e.preventDefault();
   var lang = getLang();
-  var required = ["carSelect","pickupDate","returnDate","pickupLoc"];
+  var required = carLocked ? ["pickupDate","returnDate","pickupLoc"] : ["carSelect","pickupDate","returnDate","pickupLoc"];
   for (var i = 0; i < required.length; i++) {
     var el = document.getElementById(required[i]);
     if (!el.value.trim()) {
@@ -661,7 +698,14 @@ function submitForm(e) {
 
   var d1 = new Date(pickupDate);
   var d2 = new Date(returnDate);
-  var days = Math.max(1, Math.round((d2 - d1) / 864e5));
+  var days = Math.max(2, Math.round((d2 - d1) / 864e5));
+
+  // Enforce minimum 2 days
+  if (days < 2) {
+    document.getElementById("returnDate").closest(".input-box").style.borderColor = "var(--ember)";
+    document.getElementById("returnDate").focus();
+    return;
+  }
   var total = car.price * days;
 
   // Map location values to translated text
