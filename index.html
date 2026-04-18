@@ -709,8 +709,8 @@
 <header class="hero">
   <!-- Background Video -->
   <div class="hero-video-wrap">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="">
-      <source src="assets/WhatsApp Video 2026-04-17 at 09.00.01.mp4" type="video/mp4">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster=""
+           src="assets/hero-video.mp4">
     </video>
     <div class="hero-video-overlay"></div>
   </div>
@@ -958,32 +958,41 @@
     var v = document.querySelector('.hero-video');
     if (!v) return;
 
+    // Force attributes for iOS
+    v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('playsinline', '');
+    v.muted = true;
+    v.defaultMuted = true;
+
     function forcePlay() {
       if (v.paused) {
         v.muted = true;
-        v.play().catch(function() {});
+        var p = v.play();
+        if (p && p.catch) p.catch(function() {});
       }
     }
 
-    // Initial play
-    v.play().catch(function() {
-      v.muted = true;
-      v.play().catch(function() {});
-    });
+    // Try playing immediately
+    forcePlay();
+
+    // Also try when video data is loaded
+    v.addEventListener('loadeddata', forcePlay);
+    v.addEventListener('canplay', forcePlay);
 
     // Resume when page becomes visible again (tab switch, screen lock)
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) forcePlay();
     });
 
-    // Resume on scroll/touch (some mobile browsers pause on interaction)
+    // Resume if browser pauses it
     v.addEventListener('pause', function() {
-      setTimeout(forcePlay, 100);
+      setTimeout(forcePlay, 200);
     });
 
     // Ensure it plays after user interacts with page (mobile autoplay policy)
     document.addEventListener('touchstart', forcePlay, { once: true });
     document.addEventListener('click', forcePlay, { once: true });
+    document.addEventListener('scroll', forcePlay, { once: true });
   })();
 
   // Reveal on scroll (set up after renderCars so fleet-grid has content)
