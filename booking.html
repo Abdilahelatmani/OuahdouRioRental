@@ -493,7 +493,7 @@
           <label><span data-i18n="form_pickup_loc">Lieu de prise en charge</span> <span class="req">*</span></label>
           <div class="input-box">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            <select id="pickupLoc" required>
+            <select id="pickupLoc" required onchange="calcTotal()">
               <!-- Options rendered by JS -->
             </select>
           </div>
@@ -583,7 +583,6 @@ function renderLocDropdown() {
   select.innerHTML =
     '<option value="">' + t('form_loc_placeholder', lang) + '</option>' +
     '<option value="airport">' + t('loc_airport', lang) + '</option>' +
-    '<option value="downtown">' + t('loc_downtown', lang) + '</option>' +
     '<option value="pk25">' + t('loc_pk25', lang) + '</option>' +
     '<option value="hotel">' + t('loc_hotel', lang) + '</option>';
   if (currentVal) select.value = currentVal;
@@ -662,18 +661,27 @@ function calcTotal() {
   var lang = getLang();
   var d1 = document.getElementById("pickupDate").value;
   var d2 = document.getElementById("returnDate").value;
+  var loc = document.getElementById("pickupLoc").value;
   var priceEl = document.getElementById("totalPrice");
   var daysEl  = document.getElementById("totalDays");
+  var detailEl = document.getElementById("totalDetail");
   if (!d1 || !d2 || new Date(d2) <= new Date(d1)) {
     priceEl.innerHTML = '\u2014<small>MAD</small>';
     daysEl.textContent = t('form_select_dates', lang);
+    if (detailEl) detailEl.textContent = '';
     return;
   }
   var days = Math.max(2, Math.round((new Date(d2) - new Date(d1)) / 864e5));
-  var total = car.price * days;
+  var carTotal = car.price * days;
+  var travelFee = (loc === 'pk25') ? 200 : 0;
+  var total = carTotal + travelFee;
   priceEl.innerHTML = total.toLocaleString() + '<small>MAD</small>';
   var dayWord = days > 1 ? t('days_text_plural', lang) : t('days_text', lang);
-  daysEl.textContent = days + ' ' + dayWord + ' \u00d7 ' + car.price.toLocaleString() + ' MAD';
+  var detail = t('total_car_price', lang) + ': ' + days + ' ' + dayWord + ' \u00d7 ' + car.price.toLocaleString() + ' = ' + carTotal.toLocaleString() + ' MAD';
+  if (travelFee > 0) {
+    detail += '  +  ' + t('total_travel_fee', lang) + ': ' + travelFee + ' MAD';
+  }
+  daysEl.textContent = detail;
 }
 
 function submitForm(e) {
@@ -706,12 +714,13 @@ function submitForm(e) {
     document.getElementById("returnDate").focus();
     return;
   }
-  var total = car.price * days;
+  var carTotal = car.price * days;
+  var travelFee = (pickupLoc === 'pk25') ? 200 : 0;
+  var total = carTotal + travelFee;
 
   // Map location values to translated text
   var locationKeys = {
     "airport": "loc_airport",
-    "downtown": "loc_downtown",
     "pk25": "loc_pk25",
     "hotel": "loc_hotel"
   };
@@ -726,6 +735,10 @@ function submitForm(e) {
   message += '*' + t('wa_return_date', lang) + ':* ' + returnDate + '\n';
   message += '*' + t('wa_duration', lang) + ':* ' + days + ' ' + dayWord + '\n';
   message += '*' + t('wa_location', lang) + ':* ' + locationText + '\n';
+  message += '*' + t('wa_car_price', lang) + ':* ' + carTotal.toLocaleString() + ' MAD (' + days + ' ' + dayWord + ' \u00d7 ' + car.price.toLocaleString() + ')\n';
+  if (travelFee > 0) {
+    message += '*' + t('wa_travel_fee', lang) + ':* ' + travelFee + ' MAD\n';
+  }
   message += '*' + t('wa_total', lang) + ':* ' + total.toLocaleString() + ' MAD\n';
 
   if (notes.trim()) {

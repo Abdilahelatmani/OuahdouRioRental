@@ -156,8 +156,7 @@ var TRANSLATIONS = {
 
   // Pickup locations
   loc_airport:            { fr: "Aéroport de Dakhla (VIL) — gratuit", en: "Dakhla Airport (VIL) — free", es: "Aeropuerto de Dakhla (VIL) — gratis" },
-  loc_downtown:           { fr: "Centre-ville de Dakhla", en: "Dakhla city center",   es: "Centro de Dakhla" },
-  loc_pk25:               { fr: "PK25 — Zone kitesurf",  en: "PK25 — Kitesurf zone",  es: "PK25 — Zona kitesurf" },
+  loc_pk25:               { fr: "PK25 — Zone kitesurf (+200 MAD)", en: "PK25 — Kitesurf zone (+200 MAD)", es: "PK25 — Zona kitesurf (+200 MAD)" },
   loc_hotel:              { fr: "Mon hôtel / Riad",      en: "My hotel / Riad",       es: "Mi hotel / Riad" },
 
   // Days text in total
@@ -178,7 +177,11 @@ var TRANSLATIONS = {
   wa_duration:            { fr: "Durée",                 en: "Duration",              es: "Duración" },
   wa_location:            { fr: "Lieu de prise en charge", en: "Pick-up location",    es: "Lugar de recogida" },
   wa_total:               { fr: "Prix total estimé",     en: "Estimated total price", es: "Precio total estimado" },
+  wa_travel_fee:          { fr: "Frais de déplacement",  en: "Travel fee",            es: "Gastos de desplazamiento" },
+  wa_car_price:           { fr: "Prix voiture",          en: "Car price",             es: "Precio coche" },
   wa_notes:               { fr: "Notes",                 en: "Notes",                 es: "Notas" },
+  total_car_price:        { fr: "Prix voiture",          en: "Car price",             es: "Precio coche" },
+  total_travel_fee:       { fr: "Frais déplacement PK25", en: "PK25 travel fee",      es: "Gastos desplazamiento PK25" },
 
   // Booking car dropdown text
   car_dropdown_suffix:    { fr: "MAD/jour",              en: "MAD/day",               es: "MAD/día" }
