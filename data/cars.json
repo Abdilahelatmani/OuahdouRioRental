@@ -1,0 +1,112 @@
+[
+  {
+    "id": "logan",
+    "name": "Dacia <em>Logan</em>",
+    "category": "économique",
+    "label": "Berline \u00b7 \u00c9conomique",
+    "image": "assets/cars/logan.webp",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "fuel": "Diesel",
+    "price": 280
+  },
+  {
+    "id": "abdel",
+    "name": "abdel <em>test</em>",
+    "category": "économique",
+    "label": "Berline \u00b7 \u00c9conomique",
+    "image": "assets/cars/logan.webp",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "fuel": "Diesel",
+    "price": 280
+  },
+  {
+    "id": "sandero",
+    "name": "Dacia <em>Sandero</em>",
+    "category": "économique",
+    "label": "\u00c9conomique",
+    "image": "assets/cars/sandero.jpg",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "fuel": "Diesel",
+    "price": 250
+  },
+  {
+    "id": "tucson",
+    "name": "Hyundai <em>Tucson</em>",
+    "category": "suv",
+    "label": "SUV Compact",
+    "image": "assets/cars/tucson.jpg",
+    "seats": "5",
+    "gearbox": "Automatique",
+    "fuel": "Diesel",
+    "price": 650
+  },
+  {
+    "id": "hilux",
+    "name": "Toyota <em>Hilux</em>",
+    "category": "4\u00d74",
+    "label": "4\u00d74 / Tout-terrain",
+    "image": "assets/cars/hilux.jpg",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "traction": "4WD",
+    "price": 1100
+  },
+  {
+    "id": "clio",
+    "name": "Renault <em>Clio</em>",
+    "category": "économique",
+    "label": "Compacte",
+    "image": "assets/cars/clio.jpg",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "fuel": "Essence",
+    "price": 320
+  },
+  {
+    "id": "landcruiser",
+    "name": "Toyota <em>Land Cruiser</em>",
+    "category": "suv,4\u00d74,premium",
+    "label": "SUV Premium",
+    "image": "assets/cars/landcruiser.jpg",
+    "seats": "7",
+    "gearbox": "Automatique",
+    "traction": "4WD",
+    "price": 1800
+  },
+  {
+    "id": "duster",
+    "name": "Dacia <em>Duster</em>",
+    "category": "suv,4\u00d74",
+    "label": "SUV \u00b7 4\u00d74",
+    "image": "assets/cars/duster.jpg",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "traction": "4WD",
+    "price": 550
+  },
+  {
+    "id": "jogger",
+    "name": "Dacia <em>Jogger</em>",
+    "category": "monospaces",
+    "label": "Familiale \u00b7 7 places",
+    "image": "assets/cars/jogger.png",
+    "seats": "7",
+    "gearbox": "Manuelle",
+    "fuel": "Essence",
+    "price": 450
+  },
+  {
+    "id": "vito",
+    "name": "Mercedes <em>Vito</em>",
+    "category": "monospaces",
+    "label": "Monospace \u00b7 9 places",
+    "image": "assets/cars/vito.jpg",
+    "seats": "9",
+    "gearbox": "Automatique",
+    "bagages": "XL",
+    "price": 1400
+  }
+]

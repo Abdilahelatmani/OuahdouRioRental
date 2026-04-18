@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Réserver — Ouahdou Rio Rental · Dakhla</title>
+<link rel="icon" href="assets/logo.jpeg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Geist:wght@300..700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; border: 0; cursor: pointer; background: none; color: inherit; }
+  input, select, textarea { font: inherit; color: inherit; background: none; border: 0; outline: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  :root {
+    --ink:      #0a0706;
+    --ink-2:    #15100d;
+    --bone:     #f3e7d3;
+    --bone-2:   #e7d6bb;
+    --sand:     #c9a97a;
+    --ember:    #ff6b1a;
+    --ember-hot:#ff8a3d;
+    --amber:    #ffb04a;
+    --success:  #3ecf7a;
+    --line:     rgba(243,231,211,0.12);
+    --line-hi:  rgba(243,231,211,0.26);
+    --f-display:"Fraunces","Times New Roman",serif;
+    --f-body:   "Geist",system-ui,sans-serif;
+    --f-mono:   "Geist Mono",ui-monospace,monospace;
+    --pad:      clamp(20px,4vw,56px);
+  }
+
+  body {
+    font-family: var(--f-body);
+    background: var(--ink);
+    color: var(--bone);
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* grain */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.88  0 0 0 0 0.76  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.55; mix-blend-mode:overlay;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(10,7,6,0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1300px; margin: 0 auto; padding: 18px var(--pad);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-mark {
+    width: 44px; height: 44px; border-radius: 10px; overflow: hidden;
+    background: #fff; display: grid; place-items: center;
+  }
+  .brand-mark img { width: 110%; height: 110%; object-fit: cover; }
+  .brand-name b { font-family: var(--f-display); font-weight: 600; font-size: 17px; display: block; }
+  .brand-name span { font-family: var(--f-mono); font-size: 10px; letter-spacing: .22em; color: var(--sand); text-transform: uppercase; margin-top: 4px; display: block; }
+
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .back-link {
+    display: flex; align-items: center; gap: 9px;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--sand);
+    transition: color .25s;
+  }
+  .back-link:hover { color: var(--bone); }
+
+  /* ---------- LANG SWITCHER ---------- */
+  .lang-switch {
+    display: flex; align-items: center; gap: 0;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .lang-btn {
+    padding: 6px 10px; color: var(--sand); transition: color .25s;
+    cursor: pointer; background: none; border: 0; font: inherit;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .lang-btn:hover { color: var(--bone); }
+  .lang-btn.active { color: var(--bone); font-weight: 700; }
+  .lang-sep { color: var(--sand); opacity: .4; font-size: 11px; }
+
+  /* ---------- LAYOUT ---------- */
+  .page {
+    max-width: 1300px; margin: 0 auto;
+    padding: clamp(40px,6vw,80px) var(--pad) 100px;
+    display: grid;
+    grid-template-columns: 1fr 460px;
+    gap: clamp(30px,4vw,60px);
+    align-items: start;
+  }
+  @media (max-width: 960px) { .page { grid-template-columns: 1fr; } }
+
+  /* ---------- CAR CARD (left) ---------- */
+  .car-card {
+    position: sticky; top: 90px;
+    background: linear-gradient(180deg,rgba(34,24,18,.9),rgba(15,11,9,.85));
+    border: 1px solid var(--line-hi);
+    border-radius: 24px; overflow: hidden;
+  }
+  @media (max-width: 960px) { .car-card { position: static; } }
+
+  .car-photo-wrap {
+    width: 100%; aspect-ratio: 16/10;
+    background: radial-gradient(ellipse at 50% 60%, #2a1a0e 0%, #0d0906 100%);
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .car-photo {
+    width: 90%; height: 90%;
+    object-fit: contain; display: block;
+    filter: drop-shadow(0 18px 30px rgba(0,0,0,.6));
+    transition: transform .6s cubic-bezier(.2,.9,.3,1);
+  }
+  .car-card:hover .car-photo { transform: scale(1.04) translateY(-4px); }
+
+  .car-info { padding: 28px 30px 32px; }
+
+  .car-cat {
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--sand);
+  }
+  .car-name {
+    font-family: var(--f-display); font-size: clamp(38px,5vw,58px);
+    font-weight: 300; letter-spacing: -.02em; line-height: .96; margin-top: 10px;
+    font-variation-settings: "opsz" 144, "SOFT" 40;
+  }
+  .car-name em { font-style: italic; color: var(--ember); }
+
+  .car-specs {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 16px; margin: 24px 0;
+    padding: 20px 0; border-block: 1px solid var(--line);
+  }
+  .spec { display: flex; flex-direction: column; gap: 5px; }
+  .spec-k { font-family: var(--f-mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--sand); }
+  .spec-v { font-size: 15px; color: var(--bone); }
+
+  .car-price-wrap { display: flex; align-items: baseline; gap: 10px; }
+  .car-price {
+    font-family: var(--f-display); font-size: 52px; font-weight: 300;
+    letter-spacing: -.025em; color: var(--bone); line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .car-price b { color: var(--ember); }
+  .car-price-unit { font-family: var(--f-mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--sand); }
+
+  .car-includes {
+    margin-top: 22px; display: flex; flex-direction: column; gap: 9px;
+  }
+  .inc { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(243,231,211,.7); }
+  .inc svg { color: var(--success); flex-shrink: 0; }
+
+  /* ---------- FORM (right) ---------- */
+  .form-wrap {
+    background: linear-gradient(180deg,rgba(34,24,18,.9),rgba(15,11,9,.85));
+    border: 1px solid var(--line-hi); border-radius: 24px;
+    padding: clamp(24px,3vw,36px);
+  }
+
+  .form-title {
+    font-family: var(--f-display); font-size: clamp(28px,3.5vw,42px);
+    font-weight: 300; letter-spacing: -.02em; line-height: 1.05; margin-bottom: 28px;
+    font-variation-settings: "opsz" 144, "SOFT" 40;
+  }
+  .form-title em { font-style: italic; color: var(--ember); }
+
+  .fields { display: flex; flex-direction: column; gap: 16px; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 540px) { .row-2 { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label {
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--sand);
+  }
+  .field label .req { color: var(--ember); margin-left: 3px; }
+  .input-box {
+    display: flex; align-items: center; gap: 11px;
+    background: rgba(243,231,211,.04); border: 1px solid var(--line);
+    border-radius: 12px; padding: 13px 16px;
+    transition: border-color .25s, background .25s;
+  }
+  .input-box:focus-within { border-color: var(--ember); background: rgba(255,107,26,.07); }
+  .input-box svg { color: var(--sand); flex-shrink: 0; }
+  .input-box input,
+  .input-box select,
+  .input-box textarea {
+    flex: 1; font-size: 15px; color: var(--bone);
+    width: 100%; background: transparent; line-height: 1.5;
+  }
+  .input-box select option { background: #15100d; color: var(--bone); }
+  .input-box textarea { resize: none; min-height: 72px; }
+
+  .submit-btn {
+    width: 100%; margin-top: 8px;
+    padding: 17px 24px; border-radius: 999px;
+    background: var(--ember); color: #140800;
+    font-weight: 500; font-size: 15px; letter-spacing: .02em;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background .3s, transform .35s cubic-bezier(.2,.9,.3,1);
+    cursor: pointer; border: 0;
+  }
+  .submit-btn:hover { background: var(--ember-hot); transform: translateY(-2px); }
+  .submit-btn:disabled { opacity: .5; transform: none; cursor: not-allowed; }
+  .submit-btn svg { transition: transform .35s; }
+  .submit-btn:hover:not(:disabled) svg { transform: translateX(4px); }
+
+  .form-note {
+    margin-top: 14px; font-size: 12px; color: rgba(243,231,211,.5);
+    text-align: center; line-height: 1.5;
+  }
+  .form-note a { color: var(--sand); border-bottom: 1px solid rgba(201,169,122,.35); transition: color .25s; }
+  .form-note a:hover { color: var(--bone); }
+
+  /* ---------- TOTAL ROW ---------- */
+  .total-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,107,26,.1); border: 1px solid rgba(255,107,26,.28);
+    border-radius: 14px; padding: 16px 20px; margin-bottom: 24px;
+  }
+  .total-label { font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--sand); }
+  .total-label span { display: block; font-size: 11px; color: rgba(243,231,211,.4); margin-top: 4px; letter-spacing: .14em; }
+  .total-price {
+    font-family: var(--f-display); font-size: 36px; font-weight: 300; color: var(--bone);
+    letter-spacing: -.02em; line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .total-price small { font-family: var(--f-mono); font-size: 10px; color: var(--sand); margin-left: 5px; text-transform: uppercase; letter-spacing: .18em; }
+
+  /* ---------- SUCCESS ---------- */
+  .success-screen {
+    display: none; flex-direction: column; align-items: center;
+    text-align: center; gap: 22px; padding: 48px 32px;
+  }
+  .success-screen.show { display: flex; }
+  .form-body.hide { display: none; }
+
+  .check-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(62,207,122,.12); border: 1px solid rgba(62,207,122,.4);
+    display: grid; place-items: center; color: var(--success);
+    animation: pop .6s cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes pop { from { transform:scale(.5); opacity:0; } to { transform:scale(1); opacity:1; } }
+
+  .success-title {
+    font-family: var(--f-display); font-size: clamp(32px,4vw,48px);
+    font-weight: 300; letter-spacing: -.02em; line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+  .success-title em { font-style: italic; color: var(--success); }
+  .success-sub { color: rgba(243,231,211,.75); font-size: 15px; max-width: 38ch; line-height: 1.6; }
+  .ref-badge {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: .22em;
+    color: var(--sand); padding: 12px 24px;
+    border: 1px solid var(--line-hi); border-radius: 999px;
+  }
+  .ref-badge b { color: var(--amber); }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px; border-radius: 999px;
+    background: var(--ember); color: #140800; font-weight: 500;
+    transition: background .3s;
+  }
+  .wa-btn:hover { background: var(--ember-hot); }
+
+  /* fade in */
+  .page { animation: fadeIn .7s cubic-bezier(.2,.9,.3,1); }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark"><img src="assets/logo.jpeg" alt="Ouahdou Rio Rental" /></div>
+      <div class="brand-name">
+        <b>Ouahdou Rio Rental</b>
+        <span>Dakhla · Maroc</span>
+      </div>
+    </a>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+      </div>
+      <a class="back-link" href="index.html">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span data-i18n="nav_back">Retour à la flotte</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- LEFT: car details -->
+  <div class="car-card">
+    <div class="car-photo-wrap">
+      <img class="car-photo" id="carPhoto" src="" alt="" />
+    </div>
+    <div class="car-info">
+      <div class="car-cat" id="carCat">—</div>
+      <div class="car-name" id="carName">—</div>
+      <div class="car-specs" id="carSpecs">
+        <div class="spec"><span class="spec-k" data-i18n="booking_seats">Places</span><span class="spec-v" id="specSeats">—</span></div>
+        <div class="spec"><span class="spec-k" data-i18n="booking_gearbox">Boîte</span><span class="spec-v" id="specGear">—</span></div>
+        <div class="spec"><span class="spec-k" data-i18n="booking_traction">Traction</span><span class="spec-v" id="specDrive">—</span></div>
+      </div>
+      <div class="car-price-wrap">
+        <div class="car-price"><b id="carPrice">—</b></div>
+        <div class="car-price-unit" data-i18n="booking_price_unit">MAD / jour</div>
+      </div>
+      <div class="car-includes">
+        <div class="inc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <span data-i18n="inc_km">Kilométrage illimité</span></div>
+        <div class="inc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <span data-i18n="inc_insurance">Assurance tous risques</span></div>
+        <div class="inc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <span data-i18n="inc_airport">Livraison gratuite à l'aéroport</span></div>
+        <div class="inc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> <span data-i18n="inc_assist">Assistance routière 24h/24</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: form -->
+  <div class="form-wrap">
+
+    <!-- Success -->
+    <div class="success-screen" id="successScreen">
+      <div class="check-circle">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div class="success-title" data-i18n-html="success_title_html">Demande <em>envoyée.</em></div>
+      <p class="success-sub" data-i18n="success_sub">Nous confirmerons votre réservation par WhatsApp en moins de 10 minutes — tous les jours de l'année.</p>
+      <div class="ref-badge">Ref <b id="bookingRef">—</b></div>
+      <a class="wa-btn" id="successWaBtn" href="https://wa.me/2126">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 1 3.6 7.2L3 21l1.9-3.5A9 9 0 0 1 3 12z"/></svg>
+        <span data-i18n="success_wa">Discuter sur WhatsApp</span>
+      </a>
+      <a href="index.html" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sand);border-bottom:1px solid rgba(201,169,122,.3)" data-i18n="success_back">← Retour à la flotte</a>
+    </div>
+
+    <!-- Form body -->
+    <div class="form-body" id="formBody">
+      <div class="form-title" data-i18n-html="form_title_html">Réservez <em>votre voiture.</em></div>
+
+      <!-- Total bar (updates live) -->
+      <div class="total-bar">
+        <div class="total-label">
+          <span data-i18n="form_total_label" style="display:inline">Total estimé</span>
+          <span id="totalDays"></span>
+        </div>
+        <div class="total-price" id="totalPrice">—<small>MAD</small></div>
+      </div>
+
+      <form class="fields" id="bookForm" onsubmit="submitForm(event)" novalidate>
+
+        <!-- Dates -->
+        <div class="row-2">
+          <div class="field">
+            <label><span data-i18n="form_pickup_date">Date de départ</span> <span class="req">*</span></label>
+            <div class="input-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <input type="date" id="pickupDate" required onchange="calcTotal()" />
+            </div>
+          </div>
+          <div class="field">
+            <label><span data-i18n="form_return_date">Date de retour</span> <span class="req">*</span></label>
+            <div class="input-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <input type="date" id="returnDate" required onchange="calcTotal()" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Car Selection -->
+        <div class="field">
+          <label><span data-i18n="form_car_label">Voiture</span> <span class="req">*</span></label>
+          <div class="input-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l-4-4m0 0l4-4m-4 4h18M17 7l4 4m0 0l-4 4"/><rect x="1" y="5" width="22" height="14" rx="2"/><path d="M9 12h.01M15 12h.01"/></svg>
+            <select id="carSelect" required onchange="updateSelectedCar()">
+              <!-- Options rendered by JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Pick-up location -->
+        <div class="field">
+          <label><span data-i18n="form_pickup_loc">Lieu de prise en charge</span> <span class="req">*</span></label>
+          <div class="input-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <select id="pickupLoc" required>
+              <!-- Options rendered by JS -->
+            </select>
+          </div>
+        </div>
+
+
+        <!-- Notes -->
+        <div class="field">
+          <label data-i18n="form_notes">Notes</label>
+          <div class="input-box">
+            <textarea id="notes" data-i18n-placeholder="form_notes_placeholder" placeholder="Numéro de vol, nom de l'hôtel, siège enfant, conducteur supplémentaire…"></textarea>
+          </div>
+        </div>
+
+        <button class="submit-btn" type="submit" id="submitBtn">
+          <span data-i18n="form_submit">Envoyer la demande de réservation</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+
+        <p class="form-note">
+          <span data-i18n="form_note_line1">Aucun paiement maintenant — confirmation par WhatsApp en moins de 10 min.</span><br/>
+          <a href="index.html" data-i18n="form_note_fleet">Retour à la flotte</a> · <a href="#" data-i18n="form_note_terms">Conditions de location</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script src="data/lang.js"></script>
+<script src="data/cars.js"></script>
+<script>
+// Build CARS lookup from CARS_DATA
+var CARS = {};
+CARS_DATA.forEach(function(c) {
+  CARS[c.id] = {
+    brand: c.name.replace(/<[^>]*>/g, '').split(' ')[0],
+    model: (c.name.match(/<em>(.*?)<\/em>/) || ['',''])[1],
+    cat: c.label,
+    cat_key: c.label_key,
+    seats: parseInt(c.seats),
+    gear: c.gearbox,
+    gear_key: c.gearbox_key,
+    drive: c.traction || (c.fuel ? '' : '2WD'),
+    price: c.price,
+    img: c.image,
+    fuel: c.fuel,
+    fuel_key: c.fuel_key,
+    bagages: c.bagages
+  };
+});
+
+// Read ?car= param
+var params = new URLSearchParams(location.search);
+var carId  = params.get("car") || "sandero";
+var car    = CARS[carId] || CARS["sandero"];
+if (!CARS[carId]) carId = "sandero";
+
+// Render car dropdown options
+function renderCarDropdown() {
+  var lang = getLang();
+  var select = document.getElementById("carSelect");
+  var currentVal = select.value || carId;
+  select.innerHTML = '<option value="">' + t('form_car_placeholder', lang) + '</option>';
+  CARS_DATA.forEach(function(c) {
+    var opt = document.createElement('option');
+    opt.value = c.id;
+    var brand = c.name.replace(/<[^>]*>/g, '').split(' ')[0];
+    var model = (c.name.match(/<em>(.*?)<\/em>/) || ['',''])[1];
+    opt.textContent = brand + ' ' + model + ' — ' + c.price + ' ' + t('car_dropdown_suffix', lang);
+    select.appendChild(opt);
+  });
+  select.value = currentVal;
+}
+
+// Render pickup location dropdown
+function renderLocDropdown() {
+  var lang = getLang();
+  var select = document.getElementById("pickupLoc");
+  var currentVal = select.value;
+  select.innerHTML =
+    '<option value="">' + t('form_loc_placeholder', lang) + '</option>' +
+    '<option value="airport">' + t('loc_airport', lang) + '</option>' +
+    '<option value="downtown">' + t('loc_downtown', lang) + '</option>' +
+    '<option value="pk25">' + t('loc_pk25', lang) + '</option>' +
+    '<option value="hotel">' + t('loc_hotel', lang) + '</option>';
+  if (currentVal) select.value = currentVal;
+}
+
+// Function to update car details display
+function updateCarDisplay() {
+  var lang = getLang();
+  document.getElementById("carPhoto").src = car.img;
+  document.getElementById("carPhoto").alt = car.brand + ' ' + car.model;
+  document.getElementById("carCat").textContent = car.cat_key ? t(car.cat_key, lang) : car.cat;
+  document.getElementById("carName").innerHTML = car.brand + ' <em>' + car.model + '</em>';
+  document.getElementById("specSeats").textContent = car.seats;
+  document.getElementById("specGear").textContent = car.gear_key ? t(car.gear_key, lang) : car.gear;
+  document.getElementById("specDrive").textContent = car.drive || '2WD';
+  document.getElementById("carPrice").textContent = car.price.toLocaleString();
+  calcTotal();
+}
+
+// Function called when user changes car selection
+function updateSelectedCar() {
+  var selectedCarId = document.getElementById("carSelect").value;
+  if (selectedCarId && CARS[selectedCarId]) {
+    carId = selectedCarId;
+    car = CARS[selectedCarId];
+    updateCarDisplay();
+  }
+}
+
+// Set default dates first
+var today = new Date(), plus3 = new Date(Date.now() + 3 * 864e5);
+var iso = function(d) { return d.toISOString().slice(0,10); };
+document.getElementById("pickupDate").value = iso(today);
+document.getElementById("returnDate").value  = iso(plus3);
+
+// Initial render of dropdowns
+renderCarDropdown();
+renderLocDropdown();
+document.getElementById("carSelect").value = carId;
+
+// Initial display
+updateCarDisplay();
+
+function calcTotal() {
+  var lang = getLang();
+  var d1 = document.getElementById("pickupDate").value;
+  var d2 = document.getElementById("returnDate").value;
+  var priceEl = document.getElementById("totalPrice");
+  var daysEl  = document.getElementById("totalDays");
+  if (!d1 || !d2 || new Date(d2) <= new Date(d1)) {
+    priceEl.innerHTML = '\u2014<small>MAD</small>';
+    daysEl.textContent = t('form_select_dates', lang);
+    return;
+  }
+  var days  = Math.max(1, Math.round((new Date(d2) - new Date(d1)) / 864e5));
+  var total = car.price * days;
+  priceEl.innerHTML = total.toLocaleString() + '<small>MAD</small>';
+  var dayWord = days > 1 ? t('days_text_plural', lang) : t('days_text', lang);
+  daysEl.textContent = days + ' ' + dayWord + ' \u00d7 ' + car.price.toLocaleString() + ' MAD';
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  var lang = getLang();
+  var required = ["carSelect","pickupDate","returnDate","pickupLoc"];
+  for (var i = 0; i < required.length; i++) {
+    var el = document.getElementById(required[i]);
+    if (!el.value.trim()) {
+      el.closest(".input-box").style.borderColor = "var(--ember)";
+      el.focus();
+      return;
+    }
+    el.closest(".input-box").style.borderColor = "";
+  }
+
+  // Generate WhatsApp message
+  var pickupDate = document.getElementById("pickupDate").value;
+  var returnDate = document.getElementById("returnDate").value;
+  var pickupLoc = document.getElementById("pickupLoc").value;
+  var notes = document.getElementById("notes").value;
+
+  var d1 = new Date(pickupDate);
+  var d2 = new Date(returnDate);
+  var days = Math.max(1, Math.round((d2 - d1) / 864e5));
+  var total = car.price * days;
+
+  // Map location values to translated text
+  var locationKeys = {
+    "airport": "loc_airport",
+    "downtown": "loc_downtown",
+    "pk25": "loc_pk25",
+    "hotel": "loc_hotel"
+  };
+  var locationText = locationKeys[pickupLoc] ? t(locationKeys[pickupLoc], lang) : pickupLoc;
+
+  var dayWord = days > 1 ? t('days_text_plural', lang) : t('days_text', lang);
+
+  // Generate message in active language
+  var message = '\ud83d\ude97 *' + t('wa_title', lang) + '*\n\n';
+  message += '*' + t('wa_car', lang) + ':* ' + car.brand + ' ' + car.model + '\n';
+  message += '*' + t('wa_pickup_date', lang) + ':* ' + pickupDate + '\n';
+  message += '*' + t('wa_return_date', lang) + ':* ' + returnDate + '\n';
+  message += '*' + t('wa_duration', lang) + ':* ' + days + ' ' + dayWord + '\n';
+  message += '*' + t('wa_location', lang) + ':* ' + locationText + '\n';
+  message += '*' + t('wa_total', lang) + ':* ' + total.toLocaleString() + ' MAD\n';
+
+  if (notes.trim()) {
+    message += '\n*' + t('wa_notes', lang) + ':* ' + notes;
+  }
+
+  // Encode message for URL
+  var encodedMessage = encodeURIComponent(message);
+
+  // Open WhatsApp
+  var whatsappNumber = "212722220580";
+  var whatsappUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encodedMessage;
+
+  window.open(whatsappUrl, '_blank');
+}
+
+// Listen for language changes to re-render dynamic content
+document.addEventListener('langChanged', function() {
+  renderCarDropdown();
+  renderLocDropdown();
+  updateCarDisplay();
+  // Update page title
+  var lang = getLang();
+  document.title = t('booking_page_title', lang);
+});
+
+// Initialize language (reads localStorage, applies translations)
+initLang();
+
+// Set initial page title
+document.title = t('booking_page_title', getLang());
+</script>
+</body>
+</html>
