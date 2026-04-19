@@ -27,6 +27,20 @@ var CARS_DATA = [
     "fuel_key": "fuel_diesel",
     "price": 280
   },
+  {
+    "id": "3az",
+    "name": "Dacia <em>mizo</em>",
+    "category": "économique",
+    "label": "Berline · Économique",
+    "label_key": "label_berline_eco",
+    "image": "assets/cars/logan.webp",
+    "seats": "5",
+    "gearbox": "Manuelle",
+    "gearbox_key": "gearbox_manual",
+    "fuel": "Diesel",
+    "fuel_key": "fuel_diesel",
+    "price": 30
+  },
     {
     "id": "cc",
     "name": "cc <em>cc</em>",
