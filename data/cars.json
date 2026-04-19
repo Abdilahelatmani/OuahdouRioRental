@@ -44,17 +44,6 @@
     "price": 650
   },
   {
-    "id": "hilux",
-    "name": "Toyota <em>Hilux</em>",
-    "category": "4\u00d74",
-    "label": "4\u00d74 / Tout-terrain",
-    "image": "assets/cars/hilux.jpg",
-    "seats": "5",
-    "gearbox": "Manuelle",
-    "traction": "4WD",
-    "price": 1100
-  },
-  {
     "id": "clio",
     "name": "Renault <em>Clio</em>",
     "category": "économique",
@@ -64,17 +53,6 @@
     "gearbox": "Manuelle",
     "fuel": "Essence",
     "price": 320
-  },
-  {
-    "id": "landcruiser",
-    "name": "Toyota <em>Land Cruiser</em>",
-    "category": "suv,4\u00d74,premium",
-    "label": "SUV Premium",
-    "image": "assets/cars/landcruiser.jpg",
-    "seats": "7",
-    "gearbox": "Automatique",
-    "traction": "4WD",
-    "price": 1800
   },
   {
     "id": "duster",
