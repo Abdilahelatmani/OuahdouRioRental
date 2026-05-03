@@ -111,7 +111,7 @@ var TRANSLATIONS = {
   cta_eyebrow:            { fr: "Réservez vos clés",     en: "Book your keys",        es: "Reserva tus llaves" },
   cta_title_html:         { fr: 'Le <em>lagon</em> vous attend.<br/>Nous aussi.', en: 'The <em>lagoon</em> awaits.<br/>So do we.', es: 'La <em>laguna</em> te espera.<br/>Nosotros también.' },
   cta_sub:                { fr: "Écrivez-nous sur WhatsApp en français, anglais ou arabe. Réponse en moins de dix minutes, tous les jours, y compris les dimanches et jours fériés.", en: "Write to us on WhatsApp in French, English or Arabic. Response in under ten minutes, every day, including Sundays and holidays.", es: "Escríbenos por WhatsApp en francés, inglés o árabe. Respuesta en menos de diez minutos, todos los días, incluidos domingos y festivos." },
-  cta_wa_label:           { fr: "WhatsApp · +212 000 000 000", en: "WhatsApp · +212 000 000 000", es: "WhatsApp · +212 000 000 000" },
+  cta_wa_label:           { fr: "WhatsApp", en: "WhatsApp", es: "WhatsApp" },
 
   // Contact details
   contact_address_label:  { fr: "Adresse",              en: "Address",               es: "Dirección" },
